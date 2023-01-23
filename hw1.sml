@@ -14,6 +14,21 @@ val month_names =
         "November", 
         "Desember"
     ]
+val month_days = 
+    [
+        31, (* January *)
+        28, (* February *)
+        31, (* March *)
+        30, (* April *)
+        31, (* May *)
+        30, (* June *)
+        31, (* July *)
+        30, (* August *)
+        30, (* September *)
+        31, (* October *)
+        30, (* November *)
+        31  (* Desember *)
+    ]
 fun get_month_name(month: int, month_names: string list) = 
     if month <= 0 orelse month > 12
     then ""
@@ -129,8 +144,28 @@ fun date_to_string(date: int * int * int) =
 fun number_before_reaching_sum(n: int, xs: int list) = n
 
 (* Question No. 9 *)
+fun what_month(days: int) =
+    if days <= 0
+    then 0
+    else
+        let
+            fun calculate_month(days: int, month_days: int list) = 
+                if days <= 0 orelse days > 365
+                then 0
+                else 
+                    let
+                        val days_left = days - (hd month_days)
+                    in
+                        if days_left >= 0
+                        then 1 + calculate_month(days_left, tl month_days)
+                        else 1
+                    end
+        in
+            calculate_month(days, month_days)
+        end
 
 (* Question No. 10 *)
+fun month_range() = 2
 
 (* Question No. 11 *)
 fun oldest(date_list: (int * int * int) list) = 
