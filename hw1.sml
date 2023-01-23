@@ -137,19 +137,10 @@ fun oldest(date_list: (int * int * int) list) =
     if null date_list 
     then NONE 
     else 
-        let 
-            val head_date = hd date_list
-            val next_date = tl date_list
-            val next_next_date = tl next_date
-        in 
-            if null next_date
-            then SOME head_date
-            else if is_older(head_date, hd next_date)
-            then 
-                if null next_next_date
-                then SOME head_date
-                else oldest(head_date::next_next_date)
-            else oldest(tl date_list)
+        let val tl_date = oldest(tl date_list)
+        in if isSome tl_date andalso is_older(valOf tl_date, hd date_list) 
+            then tl_date
+            else SOME (hd date_list)
         end
 
 
