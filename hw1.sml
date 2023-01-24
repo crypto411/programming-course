@@ -141,7 +141,25 @@ fun date_to_string(date: int * int * int) =
     get_month_name(#2 date, month_names) ^ " " ^ Int.toString(#3 date) ^ ", " ^ Int.toString(#1 date)
 
 (* Question No. 8 *)
-fun number_before_reaching_sum(n: int, xs: int list) = n
+fun number_before_reaching_sum(n: int, xs: int list) = 
+    if null xs
+    then 0
+    else
+        let 
+            val tl_xs = tl xs
+            val next_value = if null tl_xs then 0 else hd tl_xs
+            val diff = n - hd xs
+        in
+            if diff > 0
+            then 
+                if next_value <> 0 andalso (diff - next_value) <= 0
+                then hd xs
+                else 
+                    if next_value = 0
+                    then hd xs
+                    else number_before_reaching_sum(diff, tl xs)
+            else 0
+        end
 
 (* Question No. 9 *)
 fun what_month(days: int) =
