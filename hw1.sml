@@ -23,7 +23,7 @@ val month_days =
         31, (* May *)
         30, (* June *)
         31, (* July *)
-        30, (* August *)
+        31, (* August *)
         30, (* September *)
         31, (* October *)
         30, (* November *)
@@ -168,11 +168,12 @@ fun what_month(days: int) =
     else
         let
             fun calculate_month(days: int, month_days: int list) = 
-                if days <= 0 orelse days > 365
+                if days <= 0
                 then 0
                 else 
                     let
-                        val days_left = days - (hd month_days)
+                        val days_mod = if days > 365 then days mod 365 else days
+                        val days_left = days_mod - (hd month_days)
                     in
                         if days_left >= 0
                         then 1 + calculate_month(days_left, tl month_days)
@@ -183,7 +184,10 @@ fun what_month(days: int) =
         end
 
 (* Question No. 10 *)
-fun month_range() = 2
+fun month_range(day1: int, day2: int) = 
+    if day1 <= 0 orelse day1 > day2
+    then []
+    else what_month(day1)::month_range(day1+1, day2)
 
 (* Question No. 11 *)
 fun oldest(date_list: (int * int * int) list) = 
@@ -195,6 +199,3 @@ fun oldest(date_list: (int * int * int) list) =
             then tl_date
             else SOME (hd date_list)
         end
-
-
-
